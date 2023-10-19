@@ -60,4 +60,28 @@ describe("Uniswap V2", function () {
         const actualValue1 = await dex.reserve(LPtokenAddress, token1);
         expect(actualValue1).to.equal(20000);
     });
+    //執行兌換
+    it("swap", async function (){
+        //原始流動性
+        const actualValue0 = await dex.reserve(LPtokenAddress, token0);
+        const actualValue1 = await dex.reserve(LPtokenAddress, token1);
+        const liquidity = actualValue0 * actualValue1;
+        //添加流動性
+        await dex.swap(token0, token1, 40000);
+        //新的流動性
+        const newActualValue0 = await dex.reserve(LPtokenAddress, token0);
+        const newActualValue1 = await dex.reserve(LPtokenAddress, token1);
+        const NewLiquidity = newActualValue0 * newActualValue1;
+        expect(NewLiquidity).to.above(liquidity);
+        //項目方紀錄增發LPtoken
+        const addLPtokenValue = await dex.checkLPtokenOwner(LPtokenAddress);
+        expect(addLPtokenValue).to.above(0);
+        //項目方執行增發LPtoken
+        await dex.mintLPtokenForOwner(LPtokenAddress);
+        const newAddLPtokenValue = await dex.checkLPtokenOwner(LPtokenAddress);
+        expect(newAddLPtokenValue).to.equal(0);
+        //確認是否發行代幣
+        const LPtokenTotalSupply = await LPtokenInstance.totalSupply();
+        expect(LPtokenTotalSupply).to.above(60000 * 10**8);
+    });
 });
