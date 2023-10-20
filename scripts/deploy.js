@@ -6,7 +6,8 @@ async function main() {
 	//部署合約(可傳入建構子所需參數)
   const test = await TestContract.deploy();
 	//執行函式
-  console.log(await test.add(1,2))
+  await test.waitForDeployment();
+  console.log(test.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

@@ -60,7 +60,7 @@ describe("Uniswap V2", function () {
         const actualValue1 = await dex.reserve(LPtokenAddress, token1);
         expect(actualValue1).to.equal(20000);
     });
-    //執行兌換
+    //執行兌換及增發
     it("swap", async function (){
         //原始流動性
         const actualValue0 = await dex.reserve(LPtokenAddress, token0);
@@ -83,5 +83,12 @@ describe("Uniswap V2", function () {
         //確認是否發行代幣
         const LPtokenTotalSupply = await LPtokenInstance.totalSupply();
         expect(LPtokenTotalSupply).to.above(60000 * 10**8);
+    });
+    //測試開根號
+    it("test sqrt", async function (){
+        //添加流動性
+        const answer = await dex._sqrt(900);
+        //取得減少流動性池子量
+        expect(answer).to.equal(30);
     });
 });

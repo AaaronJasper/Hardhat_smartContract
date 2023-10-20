@@ -191,7 +191,7 @@ contract AMM{
         return _reserveOut * _amountIn / (_amountIn + _reserveIn);
     }
     //開根號函式
-    function _sqrt(uint y) private pure returns (uint z) {
+    function _sqrt(uint y) public pure returns (uint z) {
         if (y > 3) {
             z = y;
             uint x = y / 2 + 1;
