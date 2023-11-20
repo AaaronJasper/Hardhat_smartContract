@@ -15,7 +15,7 @@ module.exports = {
     },
     goerli: {
       url: "https://goerli.infura.io/v3/64cea5a323e44db19dcfd86784cb5947",
-      accounts: ['0x']
+      //accounts: ['0x']
     }
   }
 };
